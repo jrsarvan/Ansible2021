@@ -1,0 +1,11 @@
+- hosts: Redhat
+  remote_user: ec2-user 
+  become: yes
+  tasks:
+    - name: Im going to create multiple user using loop
+      user:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - john
+        - David

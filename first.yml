@@ -1,0 +1,16 @@
+- hosts: amazon
+  remote_user: ec2-user
+  become: yes
+  tasks:
+    - name: Im going to install apache web server
+      yum:
+        name: httpd
+        state: present
+    - name: Im going to start the apache server
+      service:
+        name: httpd
+        state: started
+    - name: Im going to copy one index file for the web
+      copy:
+        src: /home/ec2-user/index.html
+        dest: /var/www/html/index.html

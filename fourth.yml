@@ -1,0 +1,25 @@
+- hosts: amazon
+  remote_user: ec2-user 
+  become: yes
+  tasks:
+    - name: Im going to configure repo for jenkins
+      yum_repository:
+        name: epel jenkins
+        description: jenkins YUM repo
+        baseurl: http://pkg.jenkins.io/redhat-stable
+        gpgkey: http://pkg.jenkins.io/redhat-stable/jenkins.io.key
+    - name: update the package
+      yum:
+        name: "*"
+        state: latest
+    - name: install java and jenkins using loop
+      yum:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - jenkins
+        - java
+    - name: service starting
+      service:
+        name: jenkins
+        state: started
